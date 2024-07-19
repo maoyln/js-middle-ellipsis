@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js如何实现当文本内容过长时，中间显示省略号...,两端正常展示</title>
+</head>
+<style type="text/css">
+  .title {
+    width: 640px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #00b388;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap;
+    /* box-sizing: border-box; */
+    padding: 0 10px;
+}
+</style>
+<body>
+  <div class="title" id="test">
+    近日，银行纷纷下调大额存单利率，但银行定期存款仍被疯抢。银行理财经理表示：有意向购买定期存款要尽快，不确定利率是否会再降。
+  </div>
+  <button onclick="getBlockDomWidth(document.getElementById('test'))">按钮</button>
+</body>
+<script type="text/javascript">
+// 通过Canvas 2D渲染上下文(context)可以调用measureText方法，此方法会返回TextMetrics对象，该对象的width属性值就是字符占据的宽度，由此也能获取到文本的真实宽度，此方法有弊端，比如说兼容性，精确度等等。
+// 获取文本长度
+function getTextWidth(text, font = 14) {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d")
+    context.font = font
+    const metrics = context.measureText(text);
+    return metrics.width
+}
+
+const textWidth = getTextWidth('近日，银行纷纷下调大额存单利率，但银行定期存款仍被疯抢。银行理财经理表示：有意向购买定期存款要尽快，不确定利率是否会再降。')
+console.log(textWidth);
+
+</script>
+</html>
