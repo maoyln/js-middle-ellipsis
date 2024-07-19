@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>js如何实现当文本内容过长时，中间显示省略号...,两端正常展示</title>
+  <title>Document</title>
 </head>
 <style type="text/css">
   .title {
@@ -24,13 +24,36 @@
 <body>
   <div class="title" id="test">近日，银行纷纷下调大额存单利率，但银行定期存款仍被疯抢。银行理财经理表示：有意向购买定期存款要尽快，不确定利率是否会再降。</div>
 </body>
-<script type="text/javascript">
+<script>
+  // 通过创建一个不会在页面显示出来的dom元素，然后把文本内容设置进去，真实的文本长度与标题盒子比较宽度，判断是否被溢出隐藏了。
+  const dom = document.getElementById('test');
 
-// Element-plus这个UI框架中的表格组件实现的方案
-// 通过document.createRange和document.getBoundingClientRect()这两个方法实现的。也就是我上面代码中实现的checkLength方法。
-
-// 标题盒子dom
-const dom = document.getElementById('test');
+  function getDomDivWidth(dom) {
+    const elementWidth = dom.clientWidth;
+    const tempElement = document.createElement('div');
+    const style = window.getComputedStyle(dom, null)
+    const { left, right } = getPadding(dom); // 这里我写的有点重复了，可以优化
+    tempElement.style.cssText = `
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+        white-space: nowrap;
+        padding-left:${style.paddingLeft};
+        padding-right:${style.paddingRight};
+        font-size: ${style.fontSize};
+        font-family: ${style.fontFamily};
+        font-weight: ${style.fontWeight};
+        letter-spacing: ${style.letterSpacing};
+    `;
+    tempElement.textContent = dom.textContent;
+    document.body.appendChild(tempElement);
+    const obj = {
+        status: tempElement.clientWidth + right + left > elementWidth,
+        width: elementWidth - left - right
+    }
+    document.body.removeChild(tempElement);
+    return obj;
+}
 
 // 获取dom元素的padding值
 function getPadding(el) {
@@ -44,35 +67,7 @@ function getPadding(el) {
         right: pr
     }
 }
-// 检测dom元素的宽度，
-function checkLength(dom) {
-     // 创建一个 Range 对象
-    const range = document.createRange();
-    
-    // 设置选中文本的起始和结束位置
-    range.setStart(dom, 0),
-    range.setEnd(dom, dom.childNodes.length);
-    
-    // 获取元素在文档中的位置和大小信息,这里直接获取的元素的宽度
-    let rangeWidth = range.getBoundingClientRect().width;
-    
-    // 获取的宽度一般都会有多位小数点，判断如果小于0.001的就直接舍掉
-    const offsetWidth = rangeWidth - Math.floor(rangeWidth);
-    if (offsetWidth < 0.001) {
-        rangeWidth = Math.floor(rangeWidth);
-    }
-    
-    // 获取元素padding值
-    const { left, right } = getPadding(dom);
-    const paddingWidth = left + right;
-    
-    // status：文本内容是否超出标题盒子；
-    // width: 标题盒子真实能够容纳文本内容的宽度
-    return {
-        status: paddingWidth + rangeWidth > dom.clientWidth,
-        width: dom.clientWidth - paddingWidth
-    };
-}
+
 
 // 计算文本长度，当长度之和大于等于dom元素的宽度后，返回当前文字所在的索引，截取时会用到。
 function calcTextLength(text, width) {
@@ -96,7 +91,7 @@ function calcTextLength(text, width) {
 
 // 设置文本内容
 function setTextContent(text) {
-    const { status, width } = checkLength(dom);
+    const { status, width } = getDomDivWidth(dom);
     let str = '';
     if (status) {
         // 翻转文本
@@ -118,7 +113,7 @@ function setTextContent(text) {
     dom.innerHTML = str;
 }
 
-setTextContent('近日，银行纷纷下调大额存单利率，但银行定期存款仍被疯抢。银行理财经理表示：有意向购买定期存款要尽快，不确定利率是否会再降。');
+setTextContent('近日，银行纷纷下调大额存单利率，但银行定期存款仍被疯抢。银行理财经理表示：有意向购买定期存款要尽快，不确定利率是否会再降。')
 
 </script>
 </html>
