@@ -97,6 +97,7 @@ function calcTextLength(text, width) {
 // 设置文本内容
 function setTextContent(text) {
     const { status, width } = checkLength(dom);
+    console.log({ status, width });
     let str = '';
     if (status) {
         // 翻转文本
