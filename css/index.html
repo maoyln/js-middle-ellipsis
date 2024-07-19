@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style type="text/css">
+.con {
+    font-size: 14px;
+    color: #666;
+    width: 600px;
+    margin: 50px auto;
+    border-radius: 8px;
+    padding: 15px;
+    overflow: hidden;
+    resize: horizontal;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+.wrap {
+    position: relative;
+    line-height: 2;
+    height: 2em;
+    padding: 0 10px;
+    overflow: hidden;
+    background: #fff;
+    margin: 5px 0;
+}
+
+.wrap:nth-child(odd) {
+    background: #f5f5f5;
+}
+
+.title {
+    display: block;
+    position: relative;
+    background: inherit;
+    text-align: justify;
+    height: 2em;
+    overflow: hidden;
+    top: -4em;
+}
+
+.txt {
+    display: block;
+    max-height: 4em;
+}
+.title::before{
+    content: attr(title);
+    width: 50%;
+    float: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: rtl;
+}
+</style>
+<body>
+    <ul class="con">
+        <li class="wrap">
+            <span class="txt">君不见，黄河之水天上来，奔流到海不复回。君不见，高堂明镜悲白发，朝如青丝暮成雪。人生得意须尽欢，莫使金樽空对月。</span>
+            <span class="title" title="君不见，黄河之水天上来，奔流到海不复回。君不见，高堂明镜悲白发，朝如青丝暮成雪。人生得意须尽欢，莫使金樽空对月。">君不见，黄河之水天上来，奔流到海不复回。君不见，高堂明镜悲白发，朝如青丝暮成雪。人生得意须尽欢，莫使金樽空对月。</span>
+        </li>
+        <li class="wrap">
+            <span class="txt">烹羊宰牛且为乐，会须一饮三百杯。岑夫子，丹丘生，将进酒，杯莫停。与君歌一曲，请君为我倾耳听。钟鼓馔玉不足贵，但愿长醉不愿醒。古来圣贤皆寂寞，惟有饮者留其名。陈王昔时宴平乐，斗酒十千恣欢谑。</span>
+            <span class="title" title="烹羊宰牛且为乐，会须一饮三百杯。岑夫子，丹丘生，将进酒，杯莫停。与君歌一曲，请君为我倾耳听。钟鼓馔玉不足贵，但愿长醉不愿醒。古来圣贤皆寂寞，惟有饮者留其名。陈王昔时宴平乐，斗酒十千恣欢谑。">
+                烹羊宰牛且为乐，会须一饮三百杯。岑夫子，丹丘生，将进酒，杯莫停。与君歌一曲，请君为我倾耳听。钟鼓馔玉不足贵，但愿长醉不愿醒。古来圣贤皆寂寞，惟有饮者留其名。陈王昔时宴平乐，斗酒十千恣欢谑。</span>
+        </li>
+        <li class="wrap">
+            <span class="txt">主人何为言少钱，径须沽取对君酌。五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。</span>
+            <span class="title" title="五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。">主人何为言少钱，径须沽取对君酌。五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。</span>
+        </li>
+        <li class="wrap">
+            <span class="txt">CSS 实现</span>
+            <span class="title" title="CSS 拖拽?">CSS 实现</span>
+        </li>
+    </ul>
+</body>
+</html>
